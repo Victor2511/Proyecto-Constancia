@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--La layout es la plantilla principal para todas las demas paginas-->
+<head>
+    <meta charset="utf-8" />
+    <title> 
+        {% block title %}
+        
+        {% endblock %}
+        
+    </title>
+    <!--Aqui se invoca el CSS-->
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+</head>
+
+<body>
+    <!--Cabecera de la Pagina-->
+    <header>
+        <div id="logotipo">
+            <!--Logo django-->
+            <img src="{% static 'css/images/Logo_Unexca.jpg' %}" />
+            <h1>Proyecto UNEXCA</h1>
+        </div>
+        
+    </header>
+    <nav>
+        <ul>
+            <li>
+                <a href="{% url 'index' %}">Inicio</a>
+            </li>
+            <!--Las condicionales permiten mostrar las opciones disponibles
+            si el usuario esta o no esta identificado-->
+            {% if user.email %}
+                <li>
+                        <a href="{% url 'logout' %}">Cerrar sesion</a>
+                </li>
+                <li>
+                    <a href="{% url 'solicitud' %}">Solicitud</a>
+                </li>
+            
+            <!--En caso de que no este autenticado no puede ver la opcion de solicitud de constancia-->
+            {% else %}
+                <li>
+                        <a href="{% url 'register' %}">Registro</a>
+                </li>
+
+                <li>
+                        <a href="{% url 'login' %}">Login</a>
+                </li>
+            {% endif %}
+            </ul>
+    </nav>
+    <div class="barra">
+        <span class="esquina-izquierda"></span>
+        <span class="relleno-barra"></span>
+        <span class="esquina-derecha"></span>
+    </div>
+    
+    <div id="content">
+        <div class="box">
+            {% block content %}
+                <!--Codigo que viene de templates-->
+                <strong>Contenido del bloque original!!!</strong>
+            {% endblock %}
+        </div>
+        
+    </div>
+    
+    <footer>
+        Proyecto UNEXCA &copy; Victor Rojas - {% now "d/m/Y" %}
+    </footer>
+</body>
+
+</html>
